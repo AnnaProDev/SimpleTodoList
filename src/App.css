@@ -13,6 +13,7 @@
 	align-items: center;
 	gap: 1rem;
 	border: 2px solid grey;
+	border-radius: 10px;
 	text-align: left;
 }
 
@@ -22,6 +23,6 @@
 }
 
 .task_check {
-	transform: scale(1.5); /* увеличить размер */
+	transform: scale(1.5);
 	margin: 10px;
 }

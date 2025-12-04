@@ -52,7 +52,7 @@ function App() {
     <>
 		<h1>To-do list</h1>
 		<button onClick={() => (setSelectedTaskId(null))}>Reset selection</button>
-		<ul>
+		<ul className="task_list">
 			{tasks.map( (task) => (
 				<li className="task" 
 					key={task.id} 

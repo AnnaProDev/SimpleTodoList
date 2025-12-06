@@ -4,7 +4,8 @@ import './App.css'
 
 function App() {
 
-	const [ selectedTaskId, setSelectedTaskId] = useState();
+	const [ selectedTaskId, setSelectedTaskId] = useState(null);
+	const [selectedTask, setSelectedTask] = useState(null)
 	const [ tasks, setTasks] = useState(null)
 
 	function setPriorityColor(priority: number) {
@@ -51,13 +52,27 @@ function App() {
 		  return (
     <>
 		<h1>To-do list</h1>
-		<button onClick={() => (setSelectedTaskId(null))}>Reset selection</button>
+		<button onClick={() => {setSelectedTaskId(null);					
+		}}>Reset selection</button>
+
+		<div className='tasks'>
 		<ul className="task_list">
 			{tasks.map( (task) => (
 				<li className="task" 
 					key={task.id} 
-					style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "blue" : "" }}
-					onClick={() => (setSelectedTaskId(task.id))}
+					style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "#6C5CE7" : "" }}
+					onClick={() => {setSelectedTaskId(task.id); 
+										 fetch("https://trelly.it-incubator.app/api/1.0/boards/" + task.attributes.boardId + "/tasks/" + task.id, {
+											headers: {
+												"api-key": import.meta.env.VITE_API_KEY,
+											},
+											})
+											.then((res) => res.json())
+											.then((json) => {
+												setSelectedTask(json.data)
+										 })
+
+					}}
 					>
 					<input className='task_check' type="checkbox" checked={task.attributes.status} />
 					<div>
@@ -68,6 +83,18 @@ function App() {
 				</li>
 			))}
 		</ul>
+
+			{ selectedTask 
+			?		<div className='task_info'>
+						<div className='task_info_title'>Task details</div>
+						<p className='task_title'>{ selectedTaskId? selectedTask.attributes.title : "Task is not selected"}</p>
+						<p><b>Board Title: </b>{selectedTask.attributes.boardTitle}</p>
+						<p><b>Description: </b>{selectedTask.attributes.description}</p>
+					</div>
+			: "Loading..."
+			}
+			</div>
+
     </>
   )
 	}

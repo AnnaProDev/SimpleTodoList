@@ -62,6 +62,7 @@ function App() {
 					key={task.id} 
 					style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "#6C5CE7" : "" }}
 					onClick={() => {setSelectedTaskId(task.id); 
+										setSelectedTask(null)
 										 fetch("https://trelly.it-incubator.app/api/1.0/boards/" + task.attributes.boardId + "/tasks/" + task.id, {
 											headers: {
 												"api-key": import.meta.env.VITE_API_KEY,
@@ -84,14 +85,19 @@ function App() {
 			))}
 		</ul>
 
-			{ selectedTask 
+			{ selectedTaskId
 			?		<div className='task_info'>
 						<div className='task_info_title'>Task details</div>
-						<p className='task_title'>{ selectedTaskId? selectedTask.attributes.title : "Task is not selected"}</p>
-						<p><b>Board Title: </b>{selectedTask.attributes.boardTitle}</p>
-						<p><b>Description: </b>{selectedTask.attributes.description}</p>
+
+						{ selectedTask 
+						? <>	<p className='task_title'>{ selectedTaskId? selectedTask.attributes.title : "Task is not selected"}</p>
+								<p><b>Board Title: </b>{selectedTask.attributes.boardTitle}</p>
+								<p><b>Description: </b>{selectedTask.attributes.description}</p>
+							</>
+						: <p>"Loading..."</p>  
+						}
 					</div>
-			: "Loading..."
+			: ""
 			}
 			</div>
 

@@ -56,51 +56,46 @@ function App() {
 		}}>Reset selection</button>
 
 		<div className='tasks'>
-		<ul className="task_list">
-			{tasks.map( (task) => (
-				<li className="task" 
-					key={task.id} 
-					style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "#6C5CE7" : "" }}
-					onClick={() => {setSelectedTaskId(task.id); 
-										setSelectedTask(null)
-										 fetch("https://trelly.it-incubator.app/api/1.0/boards/" + task.attributes.boardId + "/tasks/" + task.id, {
-											headers: {
-												"api-key": import.meta.env.VITE_API_KEY,
-											},
+			<ul className="task_list">
+				{tasks.map( (task) => (
+					<li className="task" 
+						key={task.id} 
+						style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "#6C5CE7" : "" }}
+						onClick={() => {setSelectedTaskId(task.id); 
+											fetch("https://trelly.it-incubator.app/api/1.0/boards/" + task.attributes.boardId + "/tasks/" + task.id, {
+												headers: {
+													"api-key": import.meta.env.VITE_API_KEY,
+												},
+												})
+												.then((res) => res.json())
+												.then((json) => {
+													setSelectedTask(json.data)
 											})
-											.then((res) => res.json())
-											.then((json) => {
-												setSelectedTask(json.data)
-										 })
 
-					}}
-					>
-					<input className='task_check' type="checkbox" checked={task.attributes.status} />
-					<div>
-						<div className='task_title' style ={{ textDecorationLine: task.attributes.status ? "line-through": "none" }}>{task.attributes.title}</div>
-						<div> 
-							<b>Date of creation:</b>: {new Date(task.attributes.addedAt).toLocaleDateString()}</div>
-					</div>
-				</li>
-			))}
-		</ul>
-
-			{ selectedTaskId
-			?		<div className='task_info'>
+						}}
+						>
+						<input className='task_check' type="checkbox" checked={task.attributes.status} readOnly/>
+						<div>
+							<div className='task_title' style ={{ textDecorationLine: task.attributes.status ? "line-through": "none" }}>{task.attributes.title}</div>
+							<div> 
+								<b>Date of creation:</b>: {new Date(task.attributes.addedAt).toLocaleDateString()}</div>
+						</div>
+					</li>
+				))}
+			</ul>
+			<div className='task_info'>
 						<div className='task_info_title'>Task details</div>
-
-						{ selectedTask 
-						? <>	<p className='task_title'>{ selectedTaskId? selectedTask.attributes.title : "Task is not selected"}</p>
+						{!selectedTaskId && "Task is not selected"}
+						{!selectedTask && selectedTaskId && "Loading..."}
+						{ selectedTask && selectedTaskId && selectedTask.id !== selectedTaskId && "Loading..."}
+						{ selectedTask &&
+							<>
 								<p><b>Board Title: </b>{selectedTask.attributes.boardTitle}</p>
 								<p><b>Description: </b>{selectedTask.attributes.description}</p>
 							</>
-						: <p>"Loading..."</p>  
 						}
-					</div>
-			: ""
-			}
 			</div>
-
+		</div>
     </>
   )
 	}

@@ -7,6 +7,7 @@ function App() {
 	const [ selectedTaskId, setSelectedTaskId] = useState(null);
 	const [selectedTask, setSelectedTask] = useState(null)
 	const [ tasks, setTasks] = useState(null)
+	const [boardId, setBoardId] = useState(null)
 
 	function setPriorityColor(priority: number) {
 		
@@ -38,6 +39,18 @@ function App() {
 			})
 	}, [])
 
+	useEffect( () => {
+		fetch("https://trelly.it-incubator.app/api/1.0/boards/" + boardId + "/tasks/" + selectedTaskId, {
+			headers: {
+				"api-key": import.meta.env.VITE_API_KEY,
+			},
+			})
+			.then((res) => res.json())
+			.then((json) => {
+				setSelectedTask(json.data)
+		})
+	}, [selectedTaskId])
+
 	if (tasks == null) {
 		return (
 			<>	
@@ -61,18 +74,9 @@ function App() {
 					<li className="task" 
 						key={task.id} 
 						style ={{ background : setPriorityColor(task.attributes.priority), borderColor: selectedTaskId === task.id ? "#6C5CE7" : "" }}
-						onClick={() => {setSelectedTaskId(task.id); 
-											fetch("https://trelly.it-incubator.app/api/1.0/boards/" + task.attributes.boardId + "/tasks/" + task.id, {
-												headers: {
-													"api-key": import.meta.env.VITE_API_KEY,
-												},
-												})
-												.then((res) => res.json())
-												.then((json) => {
-													setSelectedTask(json.data)
-											})
-
-						}}
+						onClick={() => {setSelectedTaskId(task.id);
+											setBoardId(task.attributes.boardId)
+											}}
 						>
 						<input className='task_check' type="checkbox" checked={task.attributes.status} readOnly/>
 						<div>

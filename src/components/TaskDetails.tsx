@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
 
-export const TaskDetails = () => {
+export const TaskDetails = (props) => {
 
 
 		const [selectedTask, setSelectedTask] = useState(null)
-		const selectedTaskId = '4f310604-82b5-4afd-b9a4-ddf12dfac0a3'
-		const boardId = '13923117-72de-4788-a7f0-4c42f162a5ab'
+
 
 		useEffect( () => {
-			fetch("https://trelly.it-incubator.app/api/1.0/boards/" + boardId + "/tasks/" + selectedTaskId, {
+			fetch("https://trelly.it-incubator.app/api/1.0/boards/" + props.boardIndex + "/tasks/" + props.taskId, {
 				headers: {
 					"api-key": import.meta.env.VITE_API_KEY,
 				},
@@ -17,16 +16,16 @@ export const TaskDetails = () => {
 				.then((json) => {
 					setSelectedTask(json.data)
 			})
-		}, [selectedTaskId])
+		}, [props.taskId])
 
 
   return <div>
 	
 			<div className='task_info'>
 						<div className='task_info_title'>Task details</div>
-						{!selectedTaskId && "Task is not selected"}
-						{!selectedTask && selectedTaskId && "Loading..."}
-						{ selectedTask && selectedTaskId && selectedTask.id !== selectedTaskId && "Loading..."}
+						{!props.taskId && "Task is not selected"}
+						{!selectedTask && props.taskId && "Loading..."}
+						{ selectedTask && props.taskId && selectedTask.id !== props.taskId && "Loading..."}
 						{ selectedTask &&
 							<>
 								<h2>Title: {selectedTask.attributes.title}</h2>

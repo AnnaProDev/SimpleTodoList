@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem";
 
-export const TasksList = (props) => {
+export const TasksList = ({taskId, onSelectTaskId, onSelectBoardId}) => {
 	const [tasks, setTasks] = useState(null);
-
 
 	function setPriorityColor(priority: number) {
 		switch (priority) {
@@ -21,8 +20,6 @@ export const TasksList = (props) => {
 				return "#ffffff";
 		}
 	}
-
-
 
 	useEffect(() => {
 		fetch(import.meta.env.VITE_API_URL, {
@@ -47,25 +44,27 @@ export const TasksList = (props) => {
 
 	return (
 		<div>
-			<ul className="task_list">
+			<div className="task_list">
+				<button
+					onClick={() => {
+						onSelectTaskId(null);
+					}}
+				>
+					Reset selection
+				</button>
 				{tasks.map((task) => {
 					return (
 						<TaskItem
 							key={task.id}
 							task={task}
-							isSelected={task.id === props.taskId}
-							onTaskSelected={props.onTaskSelected}
-
-							taskId={props.taskId}
-							boardIndex={props.boardIndex}
-
-							onSelectTaskId={props.onSelectTaskId}
-							onSelectBoardId={props.onSelectBoardId}
+							isSelected={task.id === taskId}
+							onSelectTaskId={onSelectTaskId}
+							onSelectBoardId={onSelectBoardId}
 							setPriorityColor={setPriorityColor}
 						/>
 					);
 				})}
-			</ul>
+			</div>
 		</div>
 	);
 };

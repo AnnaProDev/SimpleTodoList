@@ -1,36 +1,44 @@
-function TaskItem(props) {
+
+
+function TaskItem({
+	task,
+	isSelected,
+	setPriorityColor,
+	onSelectTaskId,
+	onSelectBoardId,
+}) {
 	return (
 		<li
 			className="task"
 			style={{
-				background: props.setPriorityColor(props.task.attributes.priority),
-				borderColor: props.isSelected ? "#6C5CE7" : "",
+				background: setPriorityColor(task.attributes.priority),
+				borderColor: isSelected ? "#6C5CE7" : "",
 			}}
 			onClick={() => {
-				props.onSelectTaskId(props.task.id);
-				props.onSelectBoardId(props.task.attributes.boardId);
+				onSelectTaskId(task.id);
+				onSelectBoardId(task.attributes.boardId);
 			}}
 		>
 			<input
 				className="task_check"
 				type="checkbox"
-				checked={props.task.attributes.status}
+				checked={task.attributes.status}
 				readOnly
 			/>
 			<div>
 				<div
 					className="task_title"
 					style={{
-						textDecorationLine: props.task.attributes.status
+						textDecorationLine: task.attributes.status
 							? "line-through"
 							: "none",
 					}}
 				>
-					{props.task.attributes.title}
+					{task.attributes.title}
 				</div>
 				<div>
 					<b>Date of creation:</b>:{" "}
-					{new Date(props.task.attributes.addedAt).toLocaleDateString()}
+					{new Date(task.attributes.addedAt).toLocaleDateString()}
 				</div>
 			</div>
 		</li>

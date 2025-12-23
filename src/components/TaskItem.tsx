@@ -1,4 +1,23 @@
+type Props = {
+	task: GlobalTaskListItemJsonApiData
+	isSelected: boolean
+	setPriorityColor:(priority: number) => string
+	onSelectBoardId: (id: string) => void
+	onSelectTaskId: (id: string) => void
+};
 
+type GlobalTaskListItemDto = {
+	priority: number
+	boardId: string
+	status: number
+	title: string
+	addedAt: string
+}
+
+export type GlobalTaskListItemJsonApiData = {
+	id: string
+	attributes: GlobalTaskListItemDto
+}
 
 function TaskItem({
 	task,
@@ -6,12 +25,12 @@ function TaskItem({
 	setPriorityColor,
 	onSelectTaskId,
 	onSelectBoardId,
-}) {
+}: Props) {
 	return (
 		<li
 			className="task"
 			style={{
-				background: setPriorityColor(task.attributes.priority),
+				backgroundColor: setPriorityColor(task.attributes.priority),
 				borderColor: isSelected ? "#6C5CE7" : "",
 			}}
 			onClick={() => {
@@ -22,7 +41,7 @@ function TaskItem({
 			<input
 				className="task_check"
 				type="checkbox"
-				checked={task.attributes.status}
+				checked={task.attributes.status === 1}
 				readOnly
 			/>
 			<div>

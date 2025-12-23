@@ -1,9 +1,25 @@
 import { useEffect, useState } from "react"
 
-export const TaskDetails = ({taskId, boardIndex}) => {
+type Props = {
+	taskId: string | null
+	boardIndex: string | null
+}
+
+type TaskDetailsDto = {
+	boardTitle: string
+	title: string
+	description: string | null
+}
+
+type TaskDetailsDatum = {
+	id: string
+	attributes: TaskDetailsDto
+}
+
+export const TaskDetails = ({taskId, boardIndex}: Props) => {
 
 
-		const [selectedTask, setSelectedTask] = useState(null)
+		const [selectedTask, setSelectedTask] = useState<TaskDetailsDatum | null>(null)
 
 
 		useEffect( () => {

@@ -4,16 +4,16 @@ import { TasksList } from "./components/TasksList";
 import './App.css'
 
 export function MainPage() {
-	const [selectTaskId, setSelectTaskId] = useState(null);
-	const [boardId, setBoardId] = useState(null);
+	const [selectTaskId, setSelectTaskId] = useState< string | null>(null);
+	const [boardId, setBoardId] = useState< string | null>(null);
 
 
-	function handleSelectTaskId(id) {
+	function handleSelectTaskId(id:string | null) {
 		setSelectTaskId(id);
 	}
 
-	function handleSelectBoardId(board) {
-		setBoardId(board);
+	function handleSelectBoardId(id: string | null) {
+		setBoardId(id);
 	}
 
 	return (
@@ -22,7 +22,6 @@ export function MainPage() {
 			<div className='tasks'>
 				<TasksList
 					taskId={selectTaskId}
-					boardIndex={boardId}
 					onSelectTaskId={handleSelectTaskId}
 					onSelectBoardId={handleSelectBoardId}
 				/>

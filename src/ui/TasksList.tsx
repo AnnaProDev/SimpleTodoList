@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import TaskItem, { type GlobalTaskListItemJsonApiData } from "./TaskItem";
-
+import TaskItem from "./TaskItem";
+import { getTasks, type GlobalTaskListItemJsonApiData } from "../dal/api-fake";
 
 type Props = {
-	taskId: string | null
-	onSelectTaskId: (id:string | null) => void
-	onSelectBoardId: (id: string | null) => void
-}
+	taskId: string | null;
+	onSelectTaskId: (id: string | null) => void;
+	onSelectBoardId: (id: string | null) => void;
+};
 
-export const TasksList = ({taskId, onSelectTaskId, onSelectBoardId}: Props) => {
-	const [tasks, setTasks] = useState<Array<GlobalTaskListItemJsonApiData> | null>(null);
+export const TasksList = ({
+	taskId,
+	onSelectTaskId,
+	onSelectBoardId,
+}: Props) => {
+	const [tasks, setTasks] =
+		useState<Array<GlobalTaskListItemJsonApiData> | null>(null);
 
 	function setPriorityColor(priority: number) {
 		switch (priority) {
@@ -29,15 +34,9 @@ export const TasksList = ({taskId, onSelectTaskId, onSelectBoardId}: Props) => {
 	}
 
 	useEffect(() => {
-		fetch(import.meta.env.VITE_API_URL, {
-			headers: {
-				"api-key": import.meta.env.VITE_API_KEY,
-			},
-		})
-			.then((res) => res.json())
-			.then((json) => {
-				setTasks(json.data);
-			});
+		getTasks().then((json) => {
+			setTasks(json.data);
+		});
 	}, []);
 
 	if (tasks === null) {
@@ -55,7 +54,7 @@ export const TasksList = ({taskId, onSelectTaskId, onSelectBoardId}: Props) => {
 				<button
 					onClick={() => {
 						onSelectTaskId(null);
-						onSelectBoardId(null)
+						onSelectBoardId(null);
 					}}
 				>
 					Reset selection

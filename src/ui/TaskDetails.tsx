@@ -1,20 +1,11 @@
 import { useEffect, useState } from "react"
+import { getTask, type TaskDetailsDatum } from "../dal/api-fake"
 
 type Props = {
 	taskId: string | null
 	boardIndex: string | null
 }
 
-type TaskDetailsDto = {
-	boardTitle: string
-	title: string
-	description: string | null
-}
-
-type TaskDetailsDatum = {
-	id: string
-	attributes: TaskDetailsDto
-}
 
 export const TaskDetails = ({taskId, boardIndex}: Props) => {
 
@@ -23,13 +14,7 @@ export const TaskDetails = ({taskId, boardIndex}: Props) => {
 
 
 		useEffect( () => {
-			fetch("https://trelly.it-incubator.app/api/1.0/boards/" + boardIndex + "/tasks/" + taskId, {
-				headers: {
-					"api-key": import.meta.env.VITE_API_KEY,
-				},
-				})
-				.then((res) => res.json())
-				.then((json) => {
+				getTask(taskId, boardIndex).then((json) => {
 					setSelectedTask(json.data)
 			})
 		}, [taskId, boardIndex])

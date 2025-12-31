@@ -1,3 +1,5 @@
+import type { GlobalTaskListItemJsonApiData } from "../dal/api-fake";
+
 type Props = {
 	task: GlobalTaskListItemJsonApiData
 	isSelected: boolean
@@ -6,18 +8,6 @@ type Props = {
 	onSelectTaskId: (id: string) => void
 };
 
-type GlobalTaskListItemDto = {
-	priority: number
-	boardId: string
-	status: number
-	title: string
-	addedAt: string
-}
-
-export type GlobalTaskListItemJsonApiData = {
-	id: string
-	attributes: GlobalTaskListItemDto
-}
 
 function TaskItem({
 	task,

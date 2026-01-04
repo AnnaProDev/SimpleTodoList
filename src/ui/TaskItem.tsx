@@ -1,4 +1,4 @@
-import type { GlobalTaskListItemJsonApiData } from "../dal/api-fake";
+import type { GlobalTaskListItemJsonApiData } from "../dal/api";
 
 type Props = {
 	task: GlobalTaskListItemJsonApiData

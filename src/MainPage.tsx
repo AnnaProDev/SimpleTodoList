@@ -1,15 +1,14 @@
-import { useState } from "react";
 import { TaskDetails } from "./ui/TaskDetails";
 import { TasksList } from "./ui/TasksList";
-import './App.css'
+import './index.css'
+import { useTaskSelection } from "./bll/useTaskSelection";
 
 export function MainPage() {
-	const [selectTaskId, setSelectTaskId] = useState< string | null>(null);
-	const [boardId, setBoardId] = useState< string | null>(null);
+const { selectedTaskId, setSelectedTaskId, boardId, setBoardId } = useTaskSelection()
 
 
 	function handleSelectTaskId(id:string | null) {
-		setSelectTaskId(id);
+		setSelectedTaskId(id);
 	}
 
 	function handleSelectBoardId(id: string | null) {
@@ -19,13 +18,14 @@ export function MainPage() {
 	return (
 		<div>
 			<h1>To-do list</h1>
+			
 			<div className='tasks'>
 				<TasksList
-					taskId={selectTaskId}
+					taskId={selectedTaskId}
 					onSelectTaskId={handleSelectTaskId}
 					onSelectBoardId={handleSelectBoardId}
 				/>
-				<TaskDetails taskId={selectTaskId} boardIndex={boardId} />
+				<TaskDetails taskId={selectedTaskId} boardIndex={boardId} />
 			</div>
 		</div>
 	);

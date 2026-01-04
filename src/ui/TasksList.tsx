@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem";
-import { getTasks, type GlobalTaskListItemJsonApiData } from "../dal/api-fake";
+import { useTasks } from "../bll/useTasks";
 
 type Props = {
 	taskId: string | null;
@@ -13,8 +12,7 @@ export const TasksList = ({
 	onSelectTaskId,
 	onSelectBoardId,
 }: Props) => {
-	const [tasks, setTasks] =
-		useState<Array<GlobalTaskListItemJsonApiData> | null>(null);
+	const { tasks } = useTasks();
 
 	function setPriorityColor(priority: number) {
 		switch (priority) {
@@ -33,12 +31,6 @@ export const TasksList = ({
 		}
 	}
 
-	useEffect(() => {
-		getTasks().then((json) => {
-			setTasks(json.data);
-		});
-	}, []);
-
 	if (tasks === null) {
 		return (
 			<>
@@ -50,15 +42,15 @@ export const TasksList = ({
 
 	return (
 		<div>
+			<button
+				onClick={() => {
+					onSelectTaskId(null);
+					onSelectBoardId(null);
+				}}
+			>
+				Reset selection
+			</button>
 			<div className="task_list">
-				<button
-					onClick={() => {
-						onSelectTaskId(null);
-						onSelectBoardId(null);
-					}}
-				>
-					Reset selection
-				</button>
 				{tasks.map((task) => {
 					return (
 						<TaskItem

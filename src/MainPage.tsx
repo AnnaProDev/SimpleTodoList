@@ -1,6 +1,6 @@
 import { TaskDetails } from "./ui/TaskDetails";
 import { TasksList } from "./ui/TasksList";
-import './index.css'
+import styles from "./MainPage.module.css"
 import { useTaskSelection } from "./bll/useTaskSelection";
 
 export function MainPage() {
@@ -19,7 +19,7 @@ const { selectedTaskId, setSelectedTaskId, boardId, setBoardId } = useTaskSelect
 		<div>
 			<h1>To-do list</h1>
 			
-			<div className='tasks'>
+			<div className={styles.tasks}>
 				<TasksList
 					taskId={selectedTaskId}
 					onSelectTaskId={handleSelectTaskId}

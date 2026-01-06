@@ -1,5 +1,6 @@
 import TaskItem from "./TaskItem";
 import { useTasks } from "../bll/useTasks";
+import styles from "./TaskList.module.css"
 
 type Props = {
 	taskId: string | null;
@@ -14,22 +15,6 @@ export const TasksList = ({
 }: Props) => {
 	const { tasks } = useTasks();
 
-	function setPriorityColor(priority: number) {
-		switch (priority) {
-			case 0:
-				return "#ffffff";
-			case 1:
-				return "#ffd7b5";
-			case 2:
-				return "#ffb38a";
-			case 3:
-				return "#ff9248";
-			case 4:
-				return "#ff6700";
-			default:
-				return "#ffffff";
-		}
-	}
 
 	if (tasks === null) {
 		return (
@@ -50,7 +35,7 @@ export const TasksList = ({
 			>
 				Reset selection
 			</button>
-			<div className="task_list">
+			<div className={styles.task_list}>
 				{tasks.map((task) => {
 					return (
 						<TaskItem
@@ -59,7 +44,6 @@ export const TasksList = ({
 							isSelected={task.id === taskId}
 							onSelectTaskId={onSelectTaskId}
 							onSelectBoardId={onSelectBoardId}
-							setPriorityColor={setPriorityColor}
 						/>
 					);
 				})}

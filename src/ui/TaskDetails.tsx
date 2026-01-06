@@ -1,4 +1,5 @@
 import { useTaskDetails } from "../bll/useTaskDetails";
+import styles from "./TaskDetails.module.css"
 
 type Props = {
 	taskId: string | null;
@@ -10,8 +11,8 @@ export const TaskDetails = ({ taskId, boardIndex }: Props) => {
 
 	return (
 		<div>
-			<div className="task_info">
-				<div className="task_info_title">Task details</div>
+			<div className={styles.task_info}>
+				<div className={styles.task_info_title}>Task details</div>
 				{!taskId && "Task is not selected"}
 				{!taskSelection && taskId && "Loading..."}
 				{taskSelection && taskId && taskSelection.id !== taskId && "Loading..."}

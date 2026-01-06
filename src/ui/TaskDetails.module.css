@@ -1,0 +1,18 @@
+.task_info {
+	width: 400px;
+	height: 300px;
+	padding: 0.5rem;
+	border: 2px solid black;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+}
+
+.task_info_title {
+	font-weight: 600;
+	font-size: 1.5rem;
+	color:brown;
+	text-decoration: underline;
+}
